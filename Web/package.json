@@ -8,7 +8,7 @@
     "google-map-react": "^0.23.0",
     "material-ui": "^0.18.2",
     "mongodb-extjson": "^1.0.4",
-    "mongodb-stitch": "^0.0.13",
+    "mongodb-stitch": "^0.0.16",
     "query-string": "^4.3.4",
     "radium": "^0.18.2",
     "rc-rate": "^2.1.0",

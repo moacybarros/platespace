@@ -94,57 +94,6 @@ Create a new pipeline with the following parameters:
 * Press the `Done` button.
 * Scroll up and at the top press the `Save` button.
 
-#### userHasMoreThanOneReview pipeline
-
-This pipeline is used by the `Write` rule of the `platespace.reviewRatings` namespace.
-
-Create a new pipeline with the following parameters:
-
-* __Name__: `userHasMoreThanOneReview`
-* __Private__: Disabled
-* __Skip Rules__: Disabled
-* __Can Evaluate__: Leave set to `{}`
-* __Parameters__:
-  * `userId`: Required
-  * `restaurantId`: Required
-* __Output Type__: Boolean
-* __Service__: mongodb-atlas
-* __Action__: aggregate
-* __Value__:
-  ```json
-    {
-      "database": "platespace",
-      "collection": "reviewsRatings",
-      "pipeline": [
-        {
-          "$match": {
-            "owner_id": "%%vars.userId",
-            "restaurantId": "%%vars.restaurantId"
-          }
-        },
-        {
-          "$count": "result"
-        },
-        {
-          "$match": {
-            "result": {
-              "$gte": 1
-            }
-          }
-        }
-      ]
-    }
-  ```
-* __Bind data to %%vars__:
- ```json
-  {
-    "userId": "%%args.userId",
-    "restaurantId": "%%args.restaurantId"
-  }
- ```
-* Press the `Done` button.
-* Scroll up and at the top press the `Save` button.
-
 #### userHasSingleReview pipeline
 
 This pipeline is used by the `Write` permission of the `platespace.reviewRatings` namespace.
@@ -361,7 +310,7 @@ Stitch lets you set up rules for every collection in your database, for instance
               {
                 "%%false": {
                   "%pipeline": {
-                    "name": "userHasMoreThanOneReview",
+                    "name": "userHasSingleReview",
                     "args": {
                       "userId": "%%user.id",
                       "restaurantId": "%%root.restaurantId"

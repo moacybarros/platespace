@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Rate from "rc-rate";
 import Dropzone from "react-dropzone";
 import "rc-rate/assets/index.css";
-import { StitchClient } from "mongodb-stitch";
-//const builtins = require('mongodb-stitch/dist/node/builtins');
+import { StitchClient, builtins  } from "mongodb-stitch";
 
 import { Localization } from "../../../localization";
 import { Styles } from "./review-dialog-style";
@@ -102,31 +101,10 @@ class ReviewDialog extends Component {
             imageUrlValue: imageUrl
           });
           if(imageUrl) {
-            //TODO: use this simpler form of executePipeline
-            /*stitchClient.executePipeline([ builtins.namedPipeline('processImage', { imagePublicUrl: imageUrl }) ])*/
-            stitchClient.executePipeline([
-              {
-                action: 'literal',
-                args: {
-                  items: [
-                    {
-                      result: '%%vars.imageRecognition'
-                    }
-                  ]
-                },
-                let: {
-                  imageRecognition: {
-                    '%pipeline': {
-                      name: 'processImage',
-                      args: {
-                        imagePublicUrl: imageUrl
-                      }
-                    }
-                  }
-                }
-              }
-            ]).then(res => {
-              var clarifaiResult = res.result[0].result.bodyJSON;
+            stitchClient.executePipeline([ builtins.namedPipeline('processImage', { imagePublicUrl: imageUrl }) ])
+           .then(res => {
+              console.log('clarifai result', res.result[0]);
+              var clarifaiResult = res.result[0].bodyJSON;
               console.log('processImage pipeline result:', clarifaiResult);
               var concepts = clarifaiResult.outputs[0].data.concepts;
               console.log('Clarifai concepts before filtering:', concepts);

@@ -1,7 +1,6 @@
-import { StitchClient } from 'mongodb-stitch';
+import { StitchClient, builtins } from 'mongodb-stitch';
 import { BSON } from 'mongodb-extjson';
 import geolib from 'geolib';
-//const builtins = require('mongodb-stitch/dist/node/builtins');
 
 const config = require('./../config.js');
 
@@ -156,8 +155,6 @@ function firstOrUndefined(results) {
 }
 
 function geoNear(latitude, longitude, query = {}, limit, minDistance = 0) {
-  /**
-   * @TODO: use this simpler form of executePipeline, most likely with JS SDK 0.0.7 and above (doesn't work with 0.0.6)
   return stitchClient.executePipeline([
     builtins.namedPipeline('geoNear', {
       latitude: latitude,
@@ -167,31 +164,6 @@ function geoNear(latitude, longitude, query = {}, limit, minDistance = 0) {
       limit: limit
     })
   ]);
-  */
-
-  return stitchClient.executePipeline([
-    {
-      action: 'literal',
-      args: {
-        items: '%%vars.geo_matches'
-      },
-      let: {
-        geo_matches: {
-          '%pipeline': {
-            name: 'geoNear',
-            args: {
-              latitude: latitude,
-              longitude: longitude,
-              minDistance: new Double(minDistance),
-              query: query,
-              limit: limit
-            }
-          }
-        }
-      }
-    }
-  ]);
-
 }
 
 function findRestaurantsByGeoNear(
@@ -212,7 +184,7 @@ function findRestaurantsByGeoNear(
     PAGE_SIZE,
     minDistance
   )
-    .then(response => response.result)
+    .then(response => response.result[0])
     .then(data => data.map(convertToRestaurantModel));
 }
 
@@ -314,13 +286,16 @@ function updateReview(reviewId, rateValue, text, imgUrl, imageConcepts, restaura
 }
 
 function getUserId() {
-  return stitchClient.authedId();
+  return "test"
+  //return stitchClient.authedId();
 }
 
 function getUserName() {
+
   return stitchClient.userProfile()
     .then(profile => 
     profile.data.name ? profile.data.name : profile.data.email);
+    
 }
 
 function createAccount(email, password) {
