@@ -456,7 +456,7 @@ Select the __Pipelines__ link in the left-hand menu add press the `New` button. 
     "url": "https://api.clarifai.com/v2/models/aaa03c23b3724a16a56b629203edc62c/outputs",
     "headers": {
       "Authorization": [
-        "Bearer NhDj1HG5bqC9SEhhvr0GC8qFN6Znc1"
+        "Bearer mqE59AWPDOoHwRMtXFHWxmhuLBS9oE"
       ]
     },
     "body": {
