@@ -75,33 +75,19 @@ class ReviewDialog extends Component {
       let fileContentType = file.type;
       var filteredConcepts;
       
-      stitchClient.executePipeline([
-          {
-            action: "binary",
-            args: {
-              encoding: "base64",
-              data: fileData
-            }
-          },
-          {
-            service: config.S3_SERVICE_NAME,
-            action: "put",
-            args: {
-              bucket: bucket,
-              key: fileKey,
-              acl: "public-read",
-              contentType: fileContentType
-            }
-          }
-        ])
-        .then(res => {
+      const s3 = stitchClient.service('aws/s3', config.S3_SERVICE_NAME);
+      const putPromise = stitchClient.executePipeline([
+        builtins.binary('base64', fileData),
+          s3.put(bucket, fileKey, "public-read", fileContentType)]);
+          
+        putPromise.then(res => {
           console.log("AWS S3 url: ", res.result[0].location);
           imageUrl = res.result[0].location;
           this.setState({
             imageUrlValue: imageUrl
           });
           if(imageUrl) {
-            stitchClient.executePipeline([ builtins.namedPipeline('processImage', { imagePublicUrl: imageUrl }) ])
+            stitchClient.executePipeline([builtins.namedPipeline('processImage', { imagePublicUrl: imageUrl })])
            .then(res => {
               console.log('clarifai result', res.result[0]);
               var clarifaiResult = res.result[0].bodyJSON;

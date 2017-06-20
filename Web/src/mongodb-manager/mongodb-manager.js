@@ -300,26 +300,26 @@ function getUserName() {
 
 function createAccount(email, password) {
   console.log('registering account', email, password)
-  return stitchClient.authManager.register(email, password);
+  return stitchClient.register(email, password);
 }
 
 function confirmAccount(tokenId, token) {
   console.log('confirming account', tokenId, token)
-  return stitchClient.authManager.emailConfirm(tokenId, token);
+  return stitchClient.auth.provider('userpass').emailConfirm(tokenId, token);
 }
 
 function login(email, password) {
-  return stitchClient.authManager.localAuth(email, password);
+  return stitchClient.login(email, password);
 }
 
 function loginWithFacebook() {
-  stitchClient.authWithOAuth('facebook');
+  stitchClient.authenticate('facebook');
 }
 
 let isAnonymousLogin = false;
 function loginAnonymous() {
   isAnonymousLogin = true;
-  return stitchClient.anonymousAuth();
+  return stitchClient.login();
 }
 
 function isAnonymous() {
