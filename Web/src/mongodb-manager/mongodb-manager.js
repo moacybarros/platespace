@@ -286,8 +286,7 @@ function updateReview(reviewId, rateValue, text, imgUrl, imageConcepts, restaura
 }
 
 function getUserId() {
-  return "test"
-  //return stitchClient.authedId();
+  return stitchClient.authedId();
 }
 
 function getUserName() {
