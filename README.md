@@ -20,7 +20,7 @@ It demonstrates how to use MongoDB Stitch as a backend-as-a-service and the Mong
 * You might be prompted to create a New Group Name. Enter any name, such as __Stitch Clusters__.
 * Build a new cluster (such as *Stitch-Demo*) if you don't have one yet.
 * If this is the first cluster in your Atlas group, scroll down to the bottom of the screen and set up the first cluster admin's username and password.
-* Once your cluster has been created, navigate to the __ETL/restore__ folder and read the README file to restore the data set this application requires to your MongoDB Atlas cluster.
+* Once your cluster has been created, navigate to the __ETL/restore__ folder and read the [README file](/ETL/restore/README.md) to restore the data set this application requires to your MongoDB Atlas cluster.
 * Select __Stitch Apps__ in the left navigation menu.
 * Press the __Create New Application__ button and name your application `platespace` (or any other name you wish). In the __Link to Cluster__ section, select the cluster name you just selected.
 * Once your Stitch app has been created, you should be redirected to the Stitch Console at https://stitch.mongodb.com
